@@ -1,10 +1,17 @@
 var axios = require('axios');
 const fs = require('fs')
 
+const target = ["google", "apple", "tesla"];
+
+
 const getPosition = (string, subString, index) => {
   return string.split(subString, index).join(subString).length;
 };
 
+const cleanPrice = (rawString) => {
+	const index = getPosition(rawString, " ", 1);
+	return rawString.substring(0, index);
+}
 
 const getRawData = async () => {
 	try {
@@ -23,6 +30,9 @@ const getRawData = async () => {
 		const index = getPosition(rawData, "BNeawe iBp4i AP7Wnd", 2);
 		const price = rawData.substring(index+21, index+31);
 		console.log(price);
+		console.log(cleanPrice(price));
+		
+		// clean price
 
 	} catch (err) {
 		console.log(err);
