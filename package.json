@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.26.1"
+    "axios": "^0.26.1",
+    "config": "^3.3.7",
+    "mongoose": "^6.2.6"
   }
 }

@@ -1,7 +1,13 @@
-var axios = require('axios');
-const fs = require('fs')
+// import frameworks
+const axios = require('axios');
+const fs = require('fs');
+const connectDB = require('./config/db.js');
 
-const target = ["google", "apple", "tesla"];
+connectDB();
+
+const Price = require('./models/Price');
+
+const target = ["google", "apple", "tesla", "intel", "goldman+sachs"];
 
 
 const getPosition = (string, subString, index) => {
@@ -33,16 +39,26 @@ const getRawData = async (target) => {
 
 		// order data
 		const dateObj = new Date();
-		console.log(`Date: ${dateObj.toDateString()}`);
-		console.log(`Time: ${dateObj.toTimeString()}`);
-		const inOrder = [`${target}`, `${dateObj.toDateString()}`, `${dateObj.toTimeString()}`, `${cleaned}`];
-		console.log(inOrder);
+		const date = dateObj.toDateString();
+		const time = dateObj.toTimeString();
 
+		incoming = new Price ({
+			name: target,
+			obtainedTime: {
+				date,
+				time,
+			},
+			price: cleaned
+		});
+		const res = await incoming.save();
+		console.log(res);
 
 	} catch (err) {
 		console.log(err);
+		//console.log(`${target}, ${err.response.status}, ${err.response.statusText}`);
 	}
 
 };
 
 target.forEach(each => getRawData(each));
+});
